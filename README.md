@@ -5,7 +5,7 @@
 # Sky Crop Dataset
 This project is used to create a new dataset from an existing COCO dataset, where the sky is cropped out of
 the images. The sky is detected by running a panoptic segmentation on the images and then cropping the lowermost pixel
-that contains the sky. Detectron2 segmentation model is used to run an inference on the images.
+that contains the sky. Detectron2's segmentation model is used to run inference on the images.
 
 ## Installation 
 Run the following python script to install detectron2
@@ -60,23 +60,18 @@ This command will download the desired COCO dataset or annotations and unzip it
 
 ```
 ### Dataset registration
-This command will register the dataset on a name of your choise
+This command will register the dataset on a name of your choise.
+You need to specify your own paths, these are an example for google's colab paths
 ```py
 from detectron2.structures import BoxMode
 from detectron2.data.datasets import register_coco_instances
-args = [
-        "/content/annotations/instances_train2014.json",
-        "/content/train2014",
-        "My_dataset2",
-        "/content/sky_cropped/new_image.jpg",
-        "/content/annotations/sky_crop_annotations.json"
-        ]
 
-path_to_annotations = args[0]
-path_to_images = args[1]
-dataset_name = args[2]
-path_to_new_images = args[3]
-path_to_new_annotations = args[4]
+path_to_annotations = "/content/annotations/instances_train2014.json"
+path_to_images = "/content/train2014"
+dataset_name = "My_dataset"
+path_to_new_images = "/content/sky_cropped"
+path_to_new_annotations = "/content/annotations/sky_crop_annotations.json"
+os.makedirs(path_to_new_images, exist_ok=True)
 register_coco_instances(dataset_name, {}, path_to_annotations, path_to_images)
 
 ```
@@ -92,7 +87,7 @@ metadata = MetadataCatalog.get(dataset_name)
 ```
 
 ### Generating new dataset
-
+View the added .ipynb for the Data_Augmentation class implementation
 ```py
 # for every dict from the list perform sky_crop then vizualize
 aug = Data_Augmentation()
